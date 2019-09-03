@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>DrumKit</title>
+    <style>
+      body {
+        background-image: url("C:/Users/Vostro/Desktop/javascript30/drum kit/drum.jpg")
+      }
+      .divclass {
+        border: 4px solid black;
+        border-radius: 5px;
+        margin: 1rem;
+        font-size: 1.5rem;
+        padding: 1rem 0.5rem;
+        transition: all 2sec;
+        width: 80px;
+        height: 100px;
+        text-align: center;
+        color: white;
+        background: rgba(0, 0, 0, 0, 4);
+        text-shadow: 0 0 5px black;
+        display: inline-block;
+      }
+      kbd {
+        font-size: 50px;
+        display: block;
+      }
+      #main {
+        margin: auto;
+        padding: auto;
+        text-align: center;
+        justify-content: center;
+        /* background-color: pink; */
+      }
+      .sound {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ffc600;
+      }
+      .playing {
+        transform: scale(1.1);
+      
+        border-color: #ffc600;
+        box-shadow: 0 0 10px #ffc600;
+      }
+      #container {
+        margin: auto;
+        margin-top: 16rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="main">
+        <script>
+          const divCreate = {
+            alpha: ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+            song: [
+              "CLAP",
+              "HIHAT",
+              "KICK",
+              "OPENHAT",
+              "BOOM",
+              "RIDE",
+              "SNARE",
+              "TOM",
+              "TINK"
+            ],
+            key: [65, 83, 68, 70, 71, 72, 74, 75, 76],
+            createDiv() {
+              for (let i = 0; i < this.alpha.length; i++) {
+                let div = document.createElement("div");
+                div.setAttribute("data-key", this.key[i]);
+                div.className = "divclass";
+                let kbd = document.createElement("kbd");
+                kbd.innerText = this.alpha[i];
+                document.getElementById("main").appendChild(div);
+                div.appendChild(kbd);
+                let br = document.createElement("br");
+                div.appendChild(br);
+                let span = document.createElement("span");
+                span.className = "sound";
+                div.appendChild(span);
+                span.innerText = this.song[i];
+                //div.innerText = this.song[i];
+              }
+            },
+            createAudio() {
+              for (let i = 0; i < this.song.length; i++) {
+                let audio = document.createElement("audio");
+                audio.src = "sounds/" + this.song[i] + ".wav";
+                audio.setAttribute("data-key", this.key[i]);
+                document.getElementById("main").appendChild(audio);
+              }
+            }
+          };
+          divCreate.createDiv();
+          divCreate.createAudio();
+        </script>
+      </div>
+      <script>
+       //start event
+        window.addEventListener("keydown", function(e) {
+          let audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+          let key = document.querySelector(
+            `.divclass[data-key="${e.keyCode}"]`
+          );
+          if (!audio) return;
+          audio.currentTime = 0;
+          audio.play();
+          key.classList.add("playing");
+        });
+
+
+        window.addEventListener("keyup", function(e) {
+         let key = document.querySelector(
+            `.divclass[data-key="${e.keyCode}"]`
+          );
+          key.classList.remove("playing");
+        });
+
+
+        //end event
+        let keys = document.querySelectorAll(".divclass");
+        function removeTransition(e) {
+          console.log("varun");
+          if (e.propertyName !== "transform") return;
+          console.log(e.propertyName);
+          this.classList.remove("playing");
+        }
+        keys.forEach(key => {
+          key.ontransitionend = e => {
+            console.log("varun");
+          };
+          //console.log(key);
+          // key.addEventListener("transitionEnd", function(e) {
+          //   console.log(e);
+          //   removeTransition(e);
+          // });
+        });
+      </script>
+    </div>
+  </body>
+</html>
