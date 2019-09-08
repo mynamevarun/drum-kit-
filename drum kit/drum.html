@@ -7,7 +7,7 @@
     <title>DrumKit</title>
     <style>
       body {
-        background-image: url("C:/Users/Vostro/Desktop/javascript30/drum kit/drum.jpg")
+        background-image: url("drum.jpg")
       }
       .divclass {
         border: 4px solid black;
@@ -85,14 +85,14 @@
                 let span = document.createElement("span");
                 span.className = "sound";
                 div.appendChild(span);
-                span.innerText = this.song[i];
+                span.innerText = this.song[i].toLowerCase();
                 //div.innerText = this.song[i];
               }
             },
             createAudio() {
               for (let i = 0; i < this.song.length; i++) {
                 let audio = document.createElement("audio");
-                audio.src = "sounds/" + this.song[i] + ".wav";
+                audio.src = "../sounds/" + this.song[i].toLowerCase() + ".wav";
                 audio.setAttribute("data-key", this.key[i]);
                 document.getElementById("main").appendChild(audio);
               }
